@@ -43,8 +43,10 @@ func main() {
 
 			w.Write([]byte("Failed to add: " + err.Error()))
 			return
-
 		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`Sum is ` + strconv.FormatUint(res.Result, 10)))
 
 	})
 
