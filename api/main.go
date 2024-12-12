@@ -11,7 +11,7 @@ import (
 
 func main() {
 
-	conn, err := grpc.Dial("add-service:50051", grpc.WithInsecure())
+	conn, err := grpc.Dial("add-service:5005", grpc.WithInsecure())
 
 	if err != nil {
 
@@ -19,13 +19,15 @@ func main() {
 
 	}
 
+	log.Println("Connected to add-service")
+
 	addClient := pb.NewAddServiceClient(conn)
 
 	http.HandleFunc("/add", func(w http.ResponseWriter, r *http.Request) {
 
 		queries := r.URL.Query()
 
-		if len(queries) == 0 {
+		if len(queries) == 0 || queries.Get("a") == "" || queries.Get("b") == "" {
 
 			w.Write([]byte("No queries found"))
 			return
@@ -49,6 +51,8 @@ func main() {
 		w.Write([]byte(`Sum is ` + strconv.FormatUint(res.Result, 10)))
 
 	})
+
+	log.Println("Server running on port 8080")
 
 	http.ListenAndServe(":8080", nil)
 

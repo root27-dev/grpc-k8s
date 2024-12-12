@@ -1,0 +1,41 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: add-service
+  name: add-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: add-service
+    spec:
+      containers:
+        - name: add-service
+          image: root/add-service
+          ports:
+            - name: add-service
+              containerPort: 5005
+          imagePullPolicy: Never
+          resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-service
+spec:
+  selector:
+    app: add-service
+  ports:
+    - port: 5005
+      targetPort: add-service

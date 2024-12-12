@@ -14,13 +14,15 @@ type server struct {
 
 func main() {
 
-	lis, err := net.Listen("tcp", ":50051")
+	lis, err := net.Listen("tcp", ":5005")
 
 	if err != nil {
 
 		log.Fatalf("Failed to listen: %v", err)
 
 	}
+
+	log.Println("Listening on port 5005")
 
 	srv := grpc.NewServer()
 
